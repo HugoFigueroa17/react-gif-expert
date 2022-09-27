@@ -1,31 +1,44 @@
 import { useState } from "react";
 import { AddCategory } from "./components/AddCategory";
+import { GifGrid } from "./components/GifGrid";
 
 export const GifExpertApp = () => {
 
-    const [ categories, setCategories ] = useState( ['One punch','Otro'] );
+    const [ categories, setCategories ] = useState( ['One punch'] );
 
-    const onAddCategory = () => {
-       setCategories([...categories,"Nuevo"]);
+    const onAddCategory = ( newCategory ) => {
+
+        const newCategoria = capitalizeString( newCategory );
+        if( categories.includes(newCategoria )) return;
+
+        const categoriesList = [...categories, newCategoria ];
+        setCategories( categoriesList.sort() );
        //setCategories(cat=>[...categories,"Nuevo"]);
     }//onAddCategory
 
+    const capitalizeString = ( str ) => {
+        const lowerStr = str.toLowerCase();
+
+        if(lowerStr.length > 1)
+            return lowerStr.charAt(0).toUpperCase() + lowerStr.substring(1);
+        return str;
+    }
+
     return (
         <>
-            {/* Titulo */}
-        <h1>Hola mundo</h1> 
+            <h1>Hola mundo</h1> 
 
-        {/* Input */}
-        <AddCategory setCategories={ setCategories } />
+            <AddCategory 
+                onNewCategory={ (value) => onAddCategory(value) }
+            />
 
-        {/* Listado de Gifs */}
-        <ol>
-            { categories.map( category => {
-                    return <li key={ category }>{ category }</li>
-                })
+            {   categories.map( category => (
+                    <GifGrid 
+                        key={ category } 
+                        category={category}
+                    />
+                ))
             }
-        </ol>
-            {/* Gif Item */}
         </>
     )
 }

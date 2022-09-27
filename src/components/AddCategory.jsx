@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-export const AddCategory = ( { setCategories } ) => {
+export const AddCategory = ( { onNewCategory } ) => {
 
     const [inputValue, setInputValue] = useState( '' );
 
@@ -11,9 +11,12 @@ export const AddCategory = ( { setCategories } ) => {
     const onSubmit = ( event ) =>{
         event.preventDefault();//Para que no recargue la pagona en el submit
 
-        if( inputValue.trim().length <=1 ) return;
+        const category = inputValue.trim();
 
-        setCategories( categories => [...categories,inputValue] );
+        if( category.length <=1 ) return;
+
+        onNewCategory( category );
+        //setCategories( categories => [...categories,inputValue] );
         setInputValue('');
     }
 
