@@ -1,11 +1,19 @@
+import { useEffect, useState } from 'react';//Dispara un efecto secundario, cuando algo cambia
 import { getGifs } from "../helpers/getGifs";
 
 export const GifGrid = ({ category }) => {
-    getGifs( category );
+
+    const [counter, setCounter] = useState(10);
+    useEffect(() =>{
+        getGifs( category );
+    },[]);//Si es vacio [] solo se ejecuta cuando se crea o contruye el componente
+
     return (
         <>
             <h3>{ category }</h3>
-            <p>Hola Mundo</p>
+            
+            <h5>{ counter }</h5>
+            <button onClick={ () =>setCounter(counter + 1)}>+1</button>
         </>
     )
 }
