@@ -1,23 +1,17 @@
-import { useEffect, useState } from 'react';//Dispara un efecto secundario, cuando algo cambia
 import { GifItem } from './GifItem';
-import { getGifs } from "../helpers/getGifs";
+import { useFetchGifs } from '../hooks/useFetchGifs';
 
 export const GifGrid = ({ category }) => {
-
-    const [images, setImages] = useState( [] );
-
-    const getImages = async() =>{
-        const newImages = await getGifs( category );
-        setImages( newImages );
-    }
-
-    useEffect(() =>{
-        getImages();
-    },[]);//Si es vacio [] solo se ejecuta cuando se crea o contruye el componente
+    const { images, isLoading} = useFetchGifs( category );//Custom hook
 
     return (
         <>
             <h3>{ category }</h3>
+
+            {
+                isLoading && (<h2>Cargando...</h2>) //: null //El null no se renderiza en react
+            }
+
             <div className='card-grid'>
             {
                 images.map( ( image ) => (
